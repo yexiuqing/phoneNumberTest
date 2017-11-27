@@ -1,12 +1,13 @@
-import Vue from 'vue'
-import phoneTest from '@/components/phoneTest'
+// import Vue from 'vue'
+// import HelloWorld from '@/components/HelloWorld'
 
-describe('phoneTest.vue', () => {
-  it('should render correct contents', () => {
-    const Constructor = Vue.extend(phoneTest)
-    const vm = new Constructor().$mount()
-    expect(vm.$el.querySelector('.app').textContent)
-    .to.equal('1111111')
-    
-  })
-})
+
+
+// describe('HelloWorld.vue', () => {
+//   it('should render correct contents', () => {
+//     const Constructor = Vue.extend(HelloWorld)
+//     const vm = new Constructor().$mount()
+//     expect(vm.$el.querySelector('.hello h1').textContent)
+//     .to.equal('Welcome to Your Vue.js App')
+//   })
+// })

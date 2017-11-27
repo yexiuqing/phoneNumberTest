@@ -1,8 +1,19 @@
 <template>
-  <div class="app">
-    <input type="text"  class="tel" v-model="phone" placeholder="请输入手机号" :disabled="inputDisabled" >
-    <div class="btn" @click="send" >{{this.click ? second : "发送验证码" }}</div>
-    <!-- <div class="btn" v-else>{{second}}s</div>  -->
+  <div id="phone">
+    <input type="text"  
+            class = "tel" 
+            v-model = "phone" 
+            placeholder = "请输入手机号" 
+            :disabled = "inputDisabled"  
+            >
+    <div class="btn" 
+          @click = "send" 
+          :hasbtn = "hasbtn" 
+          :descript = "descript"
+          :time = "time"
+          v-show="hasbtn">
+          {{this.click ? descript+this.second+"s" : "发送验证码" }}
+    </div>
     <input type="text" class="num" placeholder="请输入验证码">
   </div>
 </template>
@@ -13,12 +24,26 @@ export default {
   data() {
     return {
       phone: "",
-      second: 60,
+      second: this.time>60 || this.time < 0 ? 60 : this.time,
       click: false,
       resData: "",
       inputDisabled:false
     };
     
+  },
+  props: {
+    time: {         //倒计时的时间0~60s
+      type:Number, 
+      default:60
+    },
+    descript: {       //是否有按钮上的描述
+      type:String,
+      default:'请耐心等待'
+    },
+    hasbtn: {         //是否有按钮  true表示有
+      type:Boolean,
+      default:true
+    }
   },
   methods: {
     send() {
@@ -28,8 +53,6 @@ export default {
       } else {
         // 手机号格式正确
         this.click = true;
-                
-        
         // 发请求
         Axios.get("static/data.json").then(res => {
           this.resData = res.data;
@@ -40,9 +63,8 @@ export default {
             // 时间到
             clearInterval(timer);
             this.click = false;
-            this.second = 60;
+            this.second = this.time;
             this.inputDisabled = false;
-
           }
         }, 1000);
       }
@@ -73,7 +95,7 @@ export default {
 };
 </script>
 <style>
-.app {
+#phone{
   position: relative;
   width: 400px;
   height: 500px;
@@ -93,6 +115,8 @@ export default {
   text-align: center;
   margin: 20px 30px 20px 0;
   background: #eee;
+  font-size:12px;
+  
 }
 .num {
   float: left;
